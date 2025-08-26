@@ -32,8 +32,8 @@ public class GameManagerUI : MonoBehaviour
         Player.currentExp = 0;
     }
 
-    //void Start()
-    //{
-    //    UIManager.Instance.BindCharacter(Player);
-    //}
+    void Start()
+    {
+        UIManager.Instance.BindCharacter(Player);
+    }
 }

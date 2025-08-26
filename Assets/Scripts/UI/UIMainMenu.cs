@@ -33,8 +33,27 @@ public class UIMainMenu : MonoBehaviour
 
     public void SetCharacter(Character ch)
     {
+        if (character != null)
+        {
+            character.Changed -= Refresh;
+        }
+
         character = ch;
+
+        if (character != null)
+        {
+            character.Changed += Refresh;
+        }
+
         Refresh();
+    }
+
+    void OnDestroy()
+    {
+        if (character != null)
+        {
+            character.Changed -= Refresh;
+        }
     }
 
     public void Refresh()

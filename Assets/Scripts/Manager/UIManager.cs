@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Components")]
     public UIMainMenu uiMain;
-    //public UIStatus uiStatus;
+    public UIStatus uiStatus;
     //public UIInventory uiInventory;
 
     public Character Player;
@@ -41,14 +41,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //public void BindCharacter(Character player)
-    //{
-    //    Player = player;
-    //    if (uiMain != null) uiMain.SetCharacter(player);
-    //    if (uiStatus != null) uiStatus.SetCharacter(player);
-    //    //if (uiInventory != null) uiInventory.SetCharacter(player);
-    //    RefreshAll();
-    //}
+    public void BindCharacter(Character player)
+    {
+        Player = player;
+        if (uiMain != null) uiMain.SetCharacter(player);
+        if (uiStatus != null) uiStatus.SetCharacter(player);
+        //if (uiInventory != null) uiInventory.SetCharacter(player);
+        RefreshAll();
+    }
 
     public void ShowMain()
     {
@@ -83,21 +83,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //public void RefreshAll()
-    //{
-    //    if (uiMain != null)
-    //    {
-    //        uiMain.Refresh();
-    //    }
+    public void RefreshAll()
+    {
+        if (uiMain != null)
+        {
+            uiMain.Refresh();
+        }
 
-    //    if (uiStatus != null)
-    //    {
-    //        uiStatus.Refresh();
-    //    }
+        if (uiStatus != null)
+        {
+            uiStatus.Refresh();
+        }
 
-    //    if (uiInventory != null)
-    //    {
-    //        uiInventory.Refresh();
-    //    }
-    //}
+        //if (uiInventory != null)
+        //{
+        //    uiInventory.Refresh();
+        //}
+    }
 }

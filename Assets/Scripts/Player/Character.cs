@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character
 {
     public string name;
     public int level;
@@ -17,6 +18,16 @@ public class Character : MonoBehaviour
 
     public int currentExp;
     public int expToNext;
+
+    public event Action Changed;
+
+    void Notify()
+    {
+        if (Changed != null)
+        {
+            Changed();
+        }
+    }
 
     public int GetTotalATK()
     {
@@ -45,6 +56,11 @@ public class Character : MonoBehaviour
             return;
         }
 
+        if (expToNext <= 0)
+        {
+            expToNext = 1;
+        }
+
         currentExp += amount;
 
         while (currentExp >= expToNext)
@@ -52,10 +68,15 @@ public class Character : MonoBehaviour
             currentExp -= expToNext;
             LevelUp();
         }
+        Notify();
     }
 
     void LevelUp()
     {
         level += 1;
+        if (currentHP > GetTotalHP())
+        {
+            currentHP = GetTotalHP();
+        }
     }
 }
