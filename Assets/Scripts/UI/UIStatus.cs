@@ -6,6 +6,12 @@ using TMPro;
 
 public class UIStatus : MonoBehaviour
 {
+    [Header("LeftInfo")]
+    public TMP_Text nameTxt;
+    public TMP_Text levelTxt;
+    public Image levelBarFill;
+    public TMP_Text goldTxt;
+
     [Header("Value")]
     public TMP_Text attackValue;
     public TMP_Text defenseValue;
@@ -55,6 +61,28 @@ public class UIStatus : MonoBehaviour
         if (character == null)
         {
             return;
+        }
+
+        if (nameTxt != null)
+        {
+            nameTxt.text = character.name;
+        }
+
+        if (levelTxt != null)
+        {
+            levelTxt.text = "Lv. " + character.level;
+        }
+
+        if (goldTxt != null)
+        {
+            goldTxt.text = character.gold.ToString("N0");
+        }
+
+        if (levelBarFill != null)
+        {
+            int need = (character.expToNext > 0) ? character.expToNext : 1;
+            float ratio = (float)character.currentExp / (float)need;
+            levelBarFill.fillAmount = Mathf.Clamp01(ratio);
         }
 
         if (attackValue != null)

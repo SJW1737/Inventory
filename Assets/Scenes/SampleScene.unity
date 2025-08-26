@@ -1273,6 +1273,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af353a85ebec3c4da908e46548949a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerName: SJW
+  playerLevel: 1
+  baseHP: 100
+  baseAtk: 15
+  baseDef: 10
+  baseCrit: 1
+  startGold: 10000
+  expToNext: 100
+  startExp: 0
 --- !u!4 &508394473
 Transform:
   m_ObjectHideFlags: 0
@@ -1837,7 +1846,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LV.1
+  m_text: Lv. 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3766,7 +3775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LV.1
+  m_text: Lv. 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3999,6 +4008,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa48274f0558d14399ba1792a41b9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameTxt: {fileID: 1312507021}
+  levelTxt: {fileID: 1438688343}
+  levelBarFill: {fileID: 160374515}
+  goldTxt: {fileID: 1769208636}
   attackValue: {fileID: 1793500192}
   defenseValue: {fileID: 1572579964}
   hpValue: {fileID: 100424898}
