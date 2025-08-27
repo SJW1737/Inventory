@@ -30,11 +30,32 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        Player = new Character(playerName, playerLevel, baseHP, baseAtk, baseDef, baseCrit, startGold, Mathf.Max(1, expToNext), Mathf.Max(0, startExp));
+        SetData(playerName, playerLevel, baseHP, baseAtk, baseDef, baseCrit, startGold, expToNext, startExp);
     }
 
     void Start()
     {
         UIManager.Instance.BindCharacter(Player);
     }
+
+    public void SetData(string name, int level, int hp, int atk, int def, int crit, long gold, int expToNextVal, int startExpVal)
+    {
+        Player = new Character(
+            name,
+            level,
+            hp,
+            atk,
+            def,
+            crit,
+            gold,
+            Mathf.Max(1, expToNextVal),
+            Mathf.Max(0, startExpVal)
+        );
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.BindCharacter(Player);
+        }
+    }
 }
+

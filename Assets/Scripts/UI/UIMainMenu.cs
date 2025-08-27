@@ -96,6 +96,11 @@ public class UIMainMenu : MonoBehaviour
         }
     }
 
+    public void OpenMainMenu()
+    {
+        UIManager.Instance.ShowMain();
+    }
+
     public void OpenStatus()
     {
         UIManager.Instance.ShowStatus();

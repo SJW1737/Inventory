@@ -6,20 +6,32 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [Header("BG (Ç×»ó ON)")]
-    public GameObject bg;
-
     [Header("Panels")]
-    public GameObject mainRoot;
-    public GameObject statusRoot;
-    public GameObject inventoryRoot;
+    [SerializeField] private GameObject mainRoot;
+    [SerializeField] private GameObject statusRoot;
+    [SerializeField] private GameObject inventoryRoot;
 
     [Header("UI Components")]
-    public UIMainMenu uiMain;
-    public UIStatus uiStatus;
-    //public UIInventory uiInventory;
+    [SerializeField] private UIMainMenu uiMain;
+    [SerializeField] private UIStatus uiStatus;
+    [SerializeField] private UIInventory uiInventory;
 
-    public Character Player;
+    public UIMainMenu UIMain
+    {
+        get { return uiMain; }
+    }
+
+    public UIStatus UIStatus
+    {
+        get { return uiStatus; }
+    }
+
+    public UIInventory UIInventory
+    {
+        get { return uiInventory; }
+    }
+
+    public Character Player { get; private set; }
 
     void Awake()
     {
@@ -32,21 +44,24 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
-    {
-        if (bg != null)
-        {
-            bg.SetActive(true);
-            ShowMain();
-        }
-    }
-
     public void BindCharacter(Character player)
     {
         Player = player;
-        if (uiMain != null) uiMain.SetCharacter(player);
-        if (uiStatus != null) uiStatus.SetCharacter(player);
-        //if (uiInventory != null) uiInventory.SetCharacter(player);
+        if (uiMain != null)
+        {
+            uiMain.SetCharacter(player);
+        }
+
+        if (uiStatus != null)
+        {
+            uiStatus.SetCharacter(player);
+        }
+
+        if (uiInventory != null)
+        {
+            uiInventory.SetCharacter(player);
+        }
+
         RefreshAll();
     }
 
@@ -95,9 +110,9 @@ public class UIManager : MonoBehaviour
             uiStatus.Refresh();
         }
 
-        //if (uiInventory != null)
-        //{
-        //    uiInventory.Refresh();
-        //}
+        if (uiInventory != null)
+        {
+            uiInventory.Refresh();
+        }
     }
 }
