@@ -25,10 +25,12 @@ public class UIStatus : MonoBehaviour
 
     void Start()
     {
-        if (backBtn != null)
+        if (backBtn)
         {
             backBtn.onClick.AddListener(BackToMain);
         }
+
+        Refresh();
     }
 
     public void SetCharacter(Character ch)

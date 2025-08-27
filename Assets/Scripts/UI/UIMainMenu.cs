@@ -18,7 +18,7 @@ public class UIMainMenu : MonoBehaviour
 
     private Character character;
 
-    void Awake()
+    void Start()
     {
         if (statusBtn)
         {
@@ -29,6 +29,8 @@ public class UIMainMenu : MonoBehaviour
         {
             inventoryBtn.onClick.AddListener(OpenInventory);
         }
+
+        Refresh();
     }
 
     public void SetCharacter(Character ch)

@@ -31,6 +31,12 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         SetData(playerName, playerLevel, baseHP, baseAtk, baseDef, baseCrit, startGold, expToNext, startExp);
+
+        Player.AddItem(new Item(101, "Sword A", atk: 5, equippable: true, slot: EquipSlot.Weapon));
+        Player.AddItem(new Item(102, "Sword B", atk: 8, equippable: true, slot: EquipSlot.Weapon));
+
+        Player.AddItem(new Item(201, "Shield A", def: 4, equippable: true, slot: EquipSlot.Armor));
+        Player.AddItem(new Item(202, "Shield B", def: 7, equippable: true, slot: EquipSlot.Armor));
     }
 
     void Start()

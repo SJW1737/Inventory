@@ -30,6 +30,7 @@ public class UIInventory : MonoBehaviour
             backBtn.onClick.AddListener(() => UIManager.Instance.ShowMain());
         }
         InitInventoryUI();
+        Refresh();
     }
 
     public void SetCharacter(Character ch)
@@ -115,7 +116,10 @@ public class UIInventory : MonoBehaviour
             levelBarFill.fillAmount = Mathf.Clamp01(ratio);
         }
 
-        if (slots.Count == 0) return;
+        if (slots.Count == 0 || slots.Count == 0)
+        {
+            return;
+        }
 
         var inv = character.Inventory;
 
@@ -124,10 +128,7 @@ public class UIInventory : MonoBehaviour
         for (; i < inv.Count && i < slots.Count; i++)
         {
             var it = inv[i];
-            bool equipped =
-                (it == character.EquippedWeapon) ||
-                (it == character.EquippedArmor) ||
-                (it == character.EquippedAcc);
+            bool equipped = character.IsEquipped(it);
             slots[i].SetItem(it, equipped);
         }
 
@@ -139,21 +140,18 @@ public class UIInventory : MonoBehaviour
 
     public void OnSlotClicked(UISlot slot, Item item)
     {
-        if (item.Equippable)
+        if (character == null || item == null || !item.Equippable)
         {
-            bool already =
-                (item == character.EquippedWeapon) ||
-                (item == character.EquippedArmor) ||
-                (item == character.EquippedAcc);
+            return;
+        }
 
-            if (already)
-            {
-                character.UnEquip(item.Slot);
-            }
-            else
-            {
-                character.Equip(item);
-            }
+        if (character.IsEquipped(item))
+        {
+            character.UnEquip(item.Slot);
+        }
+        else
+        {
+            character.Equip(item);
         }
     }
 }

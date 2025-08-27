@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EquipSlot { None, Weapon, Armor, Accessory }
+public enum EquipSlot { None, Weapon, Armor }
 
 [System.Serializable]
 public class Item
@@ -27,6 +27,7 @@ public class Item
         Id = id; Name = name; Icon = icon;
         Atk = atk; Def = def; Hp = hp; Crit = crit;
         Count = Mathf.Max(1, count);
-        Equippable = equippable; Slot = slot;
+        Equippable = equippable; 
+        Slot = slot;
     }
 }

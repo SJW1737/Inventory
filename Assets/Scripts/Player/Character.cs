@@ -26,7 +26,6 @@ public class Character
     public List<Item> Inventory { get; } = new List<Item>();
     public Item EquippedWeapon { get; private set; }
     public Item EquippedArmor { get; private set; }
-    public Item EquippedAcc { get; private set; }
 
     public Character(string name, int level, int baseHP, int baseAtk, int baseDef, int baseCrit, long gold, int expToNext, int startExp)
     {
@@ -44,43 +43,11 @@ public class Character
         CurrentExp = Mathf.Max(0, startExp);
     }
 
-    public void AddItem(Item item)
-    {
-        if (item == null) return;
-        Inventory.Add(item);
-        Notify();
-    }
-
-    public void Equip(Item item)
-    {
-        if (item == null || !item.Equippable) return;
-
-        switch (item.Slot)
-        {
-            case EquipSlot.Weapon: EquippedWeapon = item; break;
-            case EquipSlot.Armor: EquippedArmor = item; break;
-            case EquipSlot.Accessory: EquippedAcc = item; break;
-        }
-        Notify();
-    }
-
-    public void UnEquip(EquipSlot slot)
-    {
-        switch (slot)
-        {
-            case EquipSlot.Weapon: EquippedWeapon = null; break;
-            case EquipSlot.Armor: EquippedArmor = null; break;
-            case EquipSlot.Accessory: EquippedAcc = null; break;
-        }
-        Notify();
-    }
-
     public int GetTotalHP()
     {
         int total = BaseHP;
         if (EquippedWeapon != null) total += EquippedWeapon.Hp;
         if (EquippedArmor != null) total += EquippedArmor.Hp;
-        if (EquippedAcc != null) total += EquippedAcc.Hp;
         return total;
     }
 
@@ -89,7 +56,6 @@ public class Character
         int total = BaseAtk;
         if (EquippedWeapon != null) total += EquippedWeapon.Atk;
         if (EquippedArmor != null) total += EquippedArmor.Atk;
-        if (EquippedAcc != null) total += EquippedAcc.Atk;
         return total;
     }
 
@@ -98,7 +64,6 @@ public class Character
         int total = BaseDef;
         if (EquippedWeapon != null) total += EquippedWeapon.Def;
         if (EquippedArmor != null) total += EquippedArmor.Def;
-        if (EquippedAcc != null) total += EquippedAcc.Def;
         return total;
     }
 
@@ -107,8 +72,72 @@ public class Character
         int total = BaseCrit;
         if (EquippedWeapon != null) total += EquippedWeapon.Crit;
         if (EquippedArmor != null) total += EquippedArmor.Crit;
-        if (EquippedAcc != null) total += EquippedAcc.Crit;
         return total;
+    }
+
+    public void AddItem(Item item)
+    {
+        if (item == null) return;
+        Inventory.Add(item);
+        Notify();
+    }
+
+    public bool Equip(Item item)
+    {
+        switch (item.Slot)
+        {
+            case EquipSlot.Weapon:
+                if (EquippedWeapon == item)
+                {
+                    return false;
+                }
+                EquippedWeapon = item;
+                break;
+
+            case EquipSlot.Armor:
+                if (EquippedArmor == item)
+                {
+                    return false;
+                }
+                EquippedArmor = item;
+                break;
+
+            default:
+                return false;
+        }
+
+        ClampHPToMax();
+        Notify();
+        return false;
+    }
+
+    public void UnEquip(EquipSlot slot)
+    {
+        switch (slot)
+        {
+            case EquipSlot.Weapon: EquippedWeapon = null; break;
+            case EquipSlot.Armor: EquippedArmor = null; break;
+        }
+        ClampHPToMax();
+        Notify();
+    }
+
+    public bool IsEquipped(Item it)
+    {
+        if (it == null)
+        {
+            return false;
+        }
+        return it == EquippedWeapon || it == EquippedArmor;
+    }
+
+    void ClampHPToMax()
+    {
+        int max = GetTotalHP();
+        if (CurrentHP > max)
+        {
+            CurrentHP = max;
+        }
     }
 
     public void AddExp(int amount)
