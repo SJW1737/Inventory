@@ -7,25 +7,25 @@ using UnityEngine.UI;
 public class UIMainMenu : MonoBehaviour
 {
     [Header("LeftInfo")]
-    public TMP_Text nameTxt;
-    public TMP_Text levelTxt;
-    public Image levelBarFill;
+    [SerializeField] private TMP_Text nameTxt;
+    [SerializeField] private TMP_Text levelTxt;
+    [SerializeField] private Image levelBarFill;
 
     [Header("Right")]
-    public Button statusBtn;
-    public Button inventoryBtn;
-    public TMP_Text goldTxt;
+    [SerializeField] private Button statusBtn;
+    [SerializeField] private Button inventoryBtn;
+    [SerializeField] private TMP_Text goldTxt;
 
-    Character character;
+    private Character character;
 
-    void Start()
+    void Awake()
     {
-        if (statusBtn != null)
+        if (statusBtn)
         {
             statusBtn.onClick.AddListener(OpenStatus);
         }
 
-        if(inventoryBtn != null)
+        if(inventoryBtn)
         {
             inventoryBtn.onClick.AddListener(OpenInventory);
         }
@@ -54,6 +54,16 @@ public class UIMainMenu : MonoBehaviour
         {
             character.Changed -= Refresh;
         }
+
+        if (statusBtn)
+        {
+            statusBtn.onClick.RemoveListener(OpenStatus);
+        }
+
+        if (inventoryBtn)
+        {
+            inventoryBtn.onClick.RemoveListener(OpenInventory);
+        }
     }
 
     public void Refresh()
@@ -63,25 +73,25 @@ public class UIMainMenu : MonoBehaviour
             return;
         }
 
-        if (nameTxt != null)
+        if (nameTxt)
         {
-            nameTxt.text = character.name;
+            nameTxt.text = character.Name;
         }
 
-        if (levelTxt != null)
+        if (levelTxt)
         {
-            levelTxt.text = "Lv. " + character.level;
+            levelTxt.text = $"Lv. {character.Level}";
         }
 
-        if (goldTxt != null)
+        if (goldTxt)
         {
-            goldTxt.text = character.gold.ToString("N0");
+            goldTxt.text = character.Gold.ToString("N0");
         }
 
-        if (levelBarFill != null)
+        if (levelBarFill)
         {
-            int need = (character.expToNext > 0) ? character.expToNext : 1;
-            float ratio = (float)character.currentExp / (float)need;
+            int need = Mathf.Max(1, character.ExpToNext);
+            float ratio = (float)character.CurrentExp / need;
             levelBarFill.fillAmount = Mathf.Clamp01(ratio);
         }
     }

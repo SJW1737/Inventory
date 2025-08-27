@@ -5,67 +5,54 @@ using UnityEngine;
 
 public class Character
 {
-    public string name;
-    public int level;
+    private string _name;
+    public string Name { get => _name; private set { _name = value; Notify(); } }
 
-    public int baseHP;
-    public int baseAtk;
-    public int baseDef;
-    public int baseCrit;
+    public int Level { get; private set; }
+    public int BaseHP { get; private set; }
+    public int BaseAtk { get; private set; }
+    public int BaseDef { get; private set; }
+    public int BaseCrit { get; private set; }
 
-    public int currentHP;
-    public long gold;
+    public int CurrentHP { get; private set; }
+    public long Gold { get; private set; }
 
-    public int currentExp;
-    public int expToNext;
+    public int CurrentExp { get; private set; }
+    public int ExpToNext { get; private set; }
 
     public event Action Changed;
+    void Notify() => Changed?.Invoke();
 
-    void Notify()
+    public Character(string name, int level, int baseHP, int baseAtk, int baseDef, int baseCrit,
+                     long gold, int expToNext, int startExp)
     {
-        if (Changed != null)
-        {
-            Changed();
-        }
+        _name = name;
+        Level = level;
+        BaseHP = baseHP;
+        BaseAtk = baseAtk;
+        BaseDef = baseDef;
+        BaseCrit = baseCrit;
+
+        CurrentHP = baseHP;
+        Gold = gold;
+
+        ExpToNext = Mathf.Max(1, expToNext);
+        CurrentExp = Mathf.Max(0, startExp);
     }
 
-    public int GetTotalATK()
-    {
-        return baseAtk;
-    }
-
-    public int GetTotalDEF()
-    {
-        return baseDef;
-    }
-
-    public int GetTotalHP()
-    {
-        return baseHP;
-    }
-
-    public int GetTotalCRIT()
-    {
-        return baseCrit;
-    }
+    public int GetTotalHP() => BaseHP;
+    public int GetTotalATK() => BaseAtk;
+    public int GetTotalDEF() => BaseDef;
+    public int GetTotalCRIT() => BaseCrit;
 
     public void AddExp(int amount)
     {
-        if (amount <= 0)
-        {
-            return;
-        }
+        if (amount <= 0) return;
+        CurrentExp += amount;
 
-        if (expToNext <= 0)
+        while (CurrentExp >= ExpToNext)
         {
-            expToNext = 1;
-        }
-
-        currentExp += amount;
-
-        while (currentExp >= expToNext)
-        {
-            currentExp -= expToNext;
+            CurrentExp -= ExpToNext;
             LevelUp();
         }
         Notify();
@@ -73,10 +60,10 @@ public class Character
 
     void LevelUp()
     {
-        level += 1;
-        if (currentHP > GetTotalHP())
-        {
-            currentHP = GetTotalHP();
-        }
+        Level += 1;
+        CurrentHP = Mathf.Min(CurrentHP, GetTotalHP());
     }
+
+    public void AddGold(long delta) { Gold += delta; Notify(); }
+    public void TakeDamage(int dmg) { CurrentHP = Mathf.Max(0, CurrentHP - dmg); Notify(); }
 }

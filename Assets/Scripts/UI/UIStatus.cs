@@ -7,21 +7,21 @@ using TMPro;
 public class UIStatus : MonoBehaviour
 {
     [Header("LeftInfo")]
-    public TMP_Text nameTxt;
-    public TMP_Text levelTxt;
-    public Image levelBarFill;
-    public TMP_Text goldTxt;
+    [SerializeField] private TMP_Text nameTxt;
+    [SerializeField] private TMP_Text levelTxt;
+    [SerializeField] private Image levelBarFill;
+    [SerializeField] private TMP_Text goldTxt;
 
     [Header("Value")]
-    public TMP_Text attackValue;
-    public TMP_Text defenseValue;
-    public TMP_Text hpValue;
-    public TMP_Text critValue;
+    [SerializeField] private TMP_Text attackValue;
+    [SerializeField] private TMP_Text defenseValue;
+    [SerializeField] private TMP_Text hpValue;
+    [SerializeField] private TMP_Text critValue;
 
     [Header("Buttons")]
-    public Button backBtn;
+    [SerializeField] private Button backBtn;
 
-    Character character;
+    private Character character;
 
     void Start()
     {
@@ -54,6 +54,11 @@ public class UIStatus : MonoBehaviour
         {
             character.Changed -= Refresh;
         }
+
+        if (backBtn != null)
+        {
+            backBtn.onClick.RemoveListener(BackToMain);
+        }
     }
 
     public void Refresh()
@@ -63,54 +68,57 @@ public class UIStatus : MonoBehaviour
             return;
         }
 
-        if (nameTxt != null)
+        if (nameTxt)
         {
-            nameTxt.text = character.name;
+            nameTxt.text = character.Name;
         }
 
-        if (levelTxt != null)
+        if (levelTxt)
         {
-            levelTxt.text = "Lv. " + character.level;
+            levelTxt.text = $"Lv. {character.Level}";
         }
 
-        if (goldTxt != null)
+        if (goldTxt)
         {
-            goldTxt.text = character.gold.ToString("N0");
+            goldTxt.text = character.Gold.ToString("N0");
         }
 
-        if (levelBarFill != null)
+        if (levelBarFill)
         {
-            int need = (character.expToNext > 0) ? character.expToNext : 1;
-            float ratio = (float)character.currentExp / (float)need;
+            int need = Mathf.Max(1, character.ExpToNext);
+            float ratio = (float)character.CurrentExp / need;
             levelBarFill.fillAmount = Mathf.Clamp01(ratio);
         }
 
-        if (attackValue != null)
+        if (attackValue)
         {
             attackValue.text = character.GetTotalATK().ToString();
         }
 
-        if (defenseValue != null)
+        if (defenseValue)
         {
             defenseValue.text = character.GetTotalDEF().ToString();
         }
 
         int maxHP = character.GetTotalHP();
 
-        if (hpValue != null)
+        if (hpValue)
         {
-            hpValue.text = character.currentHP.ToString() + "/" + maxHP.ToString();
+            hpValue.text = $"{character.CurrentHP}/{maxHP}";
         }
 
 
-        if (critValue != null)
+        if (critValue)
         {
-            critValue.text = character.GetTotalCRIT().ToString() + "%";
+            critValue.text = $"{character.GetTotalCRIT()}%";
         }
     }
 
     void BackToMain()
     {
-        UIManager.Instance.ShowMain();
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.ShowMain();
+        }
     }
 }
