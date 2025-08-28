@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string playerName = "name";
     [SerializeField] private int playerLevel = 1;
     [SerializeField] private int baseHP = 100;
-    [SerializeField] private int baseAtk = 15;
+    [SerializeField] private int baseAtk = 10;
     [SerializeField] private int baseDef = 10;
-    [SerializeField] private int baseCrit = 1;
+    [SerializeField] private int baseCrit = 10;
     [SerializeField] private long startGold = 10000;
     [SerializeField] private int expToNext = 100;
     [SerializeField] private int startExp = 0;
